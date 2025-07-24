@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Fazeela</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&family=Dancing+Script&display=swap');
+
+    :root {
+      --primary-color: #ff00ff;
+      --secondary-color: #00ffff;
+      --text-color: #fff;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: var(--text-color);
+      font-family: "Poppins", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      transition: background-color 2s ease;
+    }
+
+    .start-btn {
+      padding: 15px 30px;
+      font-size: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 2;
+      animation: glow 2s infinite;
+    }
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+      }
+
+      50% {
+        box-shadow: 0 0 40px rgba(255, 0, 255, 0.8);
+      }
+
+      100% {
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+      }
+    }
+
+    .start-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle var(--duration) infinite;
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0.2;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+
+    .hidden {
+      display: none;
+    }
+
+    .wishes {
+      text-align: center;
+      font-size: 2rem;
+      opacity: 0;
+      font-family: "Dancing Script", cursive;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    .neon-text {
+      text-shadow: 0 0 10px var(--primary-color),
+        0 0 20px var(--primary-color),
+        0 0 30px var(--primary-color);
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 30px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .mute-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .mute-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<body id="body" onclick="fullScreen()">
+   <audio id="bg-music" autoplay loop>
+        <!-- <source src="romantic.mp3" type="audio/mpeg"> -->
+    </audio>
+  <div class="stars"></div>
+  <div id="gifContainer" style="display: flex; justify-content: center; align-items: center;">
+    <img id="gif1" src="images/gif1.webp" alt="Celebration GIF" style="width: 150px; height: 150px; margin-bottom: 20px;">
+    <img id="gif2" src="images/gif2.gif" alt="Celebration GIF"
+      style="width: 150px; height: 150px; margin-bottom: 20px; display: none;">
+
+  </div>
+
+  <button class="start-btn" id="startBtn" onclick="showSecondgif()">Click to Start ✨</button>
+
+  <div id="wishesContainer" class="hidden">
+    <div id="wishes" class="wishes"></div>
+  </div>
+  <script>
+    const wishes = [
+      "🌟 Dear Fazeela... 🌟",
+      "On this special day... ✨",
+      "I want to tell you something from my heart...",
+      "You bring so much love and happiness into my life! 💖",
+      "Your smile lights up my world! 🌍",
+      "Your presence makes everything beautiful! 🌸",
+      "Happy Birthday, my love! 🎂",
+      "I’m so lucky to have you 💕",
+      "I hope your day is as amazing as you are! 🥰",
+      "Love you always, Fazeela 💘"
+    ];
+
+    function createStars() {
+      const starsContainer = document.querySelector(".stars");
+      for (let i = 0; i < 200; i++) {
+        const star = document.createElement("div");
+        star.className = "star";
+        star.style.width = `${Math.random() * 3}px`;
+        star.style.height = star.style.width;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.setProperty("--duration", `${Math.random() * 3 + 1}s`);
+        starsContainer.appendChild(star);
+      }
+    }
+
+    function createEmoji() {
+      const emojis = ["💖", "⭐", "✨", "🎉", "🎂", "🎈"];
+      const emoji = document.createElement("div");
+      emoji.className = "emoji";
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      emoji.style.left = Math.random() * window.innerWidth + "px";
+      emoji.style.top = "-50px";
+      document.body.appendChild(emoji);
+      const animation = emoji.animate(
+        [
+          { transform: "translateY(0) rotate(0deg)" },
+          { transform: `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)` }
+        ],
+        {
+          duration: 3000,
+          easing: "linear"
+        }
+      );
+      // animation.onfinish = () => emoji.remove();
+      setTimeout(() => {
+        emoji.remove();
+      }, 35000);
+    }
+
+    let emojiInterval;
+    async function typeWriter(text) {
+      const wishesElement = document.getElementById("wishes");
+      wishesElement.style.opacity = 1;
+      wishesElement.innerHTML = "";
+      wishesElement.className = "wishes neon-text";
+      for (let char of text) {
+        wishesElement.innerHTML += char;
+        await new Promise((resolve) => setTimeout(resolve, 60));
+      }
+      await new Promise((resolve) => setTimeout(resolve, 800));
+    }
+
+
+
+    document.getElementById("startBtn").addEventListener("click", async () => {
+      document.getElementById("startBtn").style.display = "none";
+      document.getElementById("wishesContainer").classList.remove("hidden");
+      emojiInterval = setInterval(createEmoji, 300);
+      for (let wish of wishes) {
+        await typeWriter(wish);
+      }
+    });
+    function fullScreen() {
+      document.getElementById("body").requestFullscreen();
+    }
+    createStars();
+    function showSecondgif() {
+      document.getElementById("gif1").style.display = "none";
+      document.getElementById("gif2").style.display = "block";
+
+    }
+    setTimeout(function () {
+      document.getElementById("gif2").style.display = "none";
+      document.getElementById("wishesContainer").style.display = "none";
+
+    }, 35000);
+  </script>
+</body>
+
+</html>
